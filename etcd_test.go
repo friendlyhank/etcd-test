@@ -6,6 +6,16 @@ import (
 	"testing"
 )
 
+/*====================================单节点配置===============================================*/
+func TestSingleEtcdMain(t *testing.T){
+	os.Args = []string{"etcd-3.3.12-test"}
+	etcdmain.Main()
+}
+
+/*====================================集群配置===============================================*/
+
+//生产环境中端口应该是一样的，IP不同
+
 //启动测试服务1
 func StartInfraOServer(){
 	os.Args = []string{"etcd-3.3.12-test","--name","infraO",
@@ -55,3 +65,54 @@ func TestInfra1EtcdMain(t *testing.T){
 func TestInfra2EtcdMain(t *testing.T){
 	StartInfra2Server()
 }
+
+
+/*====================================集群服务发现===============================================*/
+
+//启动测试服务1
+func StartInfraODiscoverServer(){
+	os.Args = []string{"etcd-3.3.12-test","--name","infraO",
+		"--initial-advertise-peer-urls","http://127.0.0.1:2382",
+		"--listen-peer-urls","http://127.0.0.1:2382",
+		"--listen-client-urls","http://127.0.0.1:2381",
+		"--advertise-client-urls","http://127.0.0.1:2381",
+		"--discovery","http://localhost:2379/v2/keys/discovery/67ba1a10b3327ccbbaf2d646c0d2753c",
+		}
+	etcdmain.Main()//服务端主入口
+}
+
+func StartInfra1DiscoverServer(){
+	os.Args = []string{"etcd-3.3.12-test","--name","infra1",
+		"--initial-advertise-peer-urls","http://127.0.0.1:2384",
+		"--listen-peer-urls","http://127.0.0.1:2384",
+		"--listen-client-urls","http://127.0.0.1:2383",
+		"--advertise-client-urls","http://127.0.0.1:2383",
+		"--discovery","http://localhost:2379/v2/keys/discovery/67ba1a10b3327ccbbaf2d646c0d2753c",
+		}
+	etcdmain.Main()//服务端主入口
+}
+
+func StartInfra2DiscoverServer(){
+	os.Args = []string{"etcd-3.3.12-test","--name","infra2",
+		"--initial-advertise-peer-urls","http://127.0.0.1:2386",
+		"--listen-peer-urls","http://127.0.0.1:2386",
+		"--listen-client-urls","http://127.0.0.1:2385",
+		"--advertise-client-urls","http://127.0.0.1:2385",
+		"--discovery","http://localhost:2379/v2/keys/discovery/67ba1a10b3327ccbbaf2d646c0d2753c",
+	}
+	etcdmain.Main()//服务端主入口
+}
+
+func TestInfraODiscoverEtcdMain(t *testing.T){
+	StartInfraODiscoverServer()
+}
+
+func TestInfra1DiscoverEtcdMain(t *testing.T){
+	StartInfra1DiscoverServer()
+}
+
+func TestInfra2DiscoverEtcdMain(t *testing.T){
+	StartInfra2DiscoverServer()
+}
+
+
