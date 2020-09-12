@@ -1,14 +1,14 @@
-package etcdtest
+package main
 
 import (
-	"hank.com/etcd-3.3.12-annotated/etcdmain"
+	"go.etcd.io/etcd/etcdmain"
 	"os"
 	"testing"
 )
 
 /*====================================单节点配置===============================================*/
 func TestSingleEtcdMain(t *testing.T){
-	os.Args = []string{"etcd-3.3.12-test"}
+	os.Args = []string{"etcd-test"}
 	etcdmain.Main()
 }
 
@@ -76,7 +76,7 @@ func StartInfraODiscoverServer(){
 		"--listen-peer-urls","http://127.0.0.1:2382",
 		"--listen-client-urls","http://127.0.0.1:2381",
 		"--advertise-client-urls","http://127.0.0.1:2381",
-		"--discovery","http://localhost:2379/v2/keys/discovery/67ba1a10b3327ccbbaf2d646c0d2753c",
+		"--discovery","https://discovery.etcd.io/f0be1fdc930b1d1a495bb99544a4d2b7",
 		}
 	etcdmain.Main()//服务端主入口
 }
@@ -87,7 +87,7 @@ func StartInfra1DiscoverServer(){
 		"--listen-peer-urls","http://127.0.0.1:2384",
 		"--listen-client-urls","http://127.0.0.1:2383",
 		"--advertise-client-urls","http://127.0.0.1:2383",
-		"--discovery","http://localhost:2379/v2/keys/discovery/67ba1a10b3327ccbbaf2d646c0d2753c",
+		"--discovery","https://discovery.etcd.io/f0be1fdc930b1d1a495bb99544a4d2b7",
 		}
 	etcdmain.Main()//服务端主入口
 }
@@ -98,7 +98,7 @@ func StartInfra2DiscoverServer(){
 		"--listen-peer-urls","http://127.0.0.1:2386",
 		"--listen-client-urls","http://127.0.0.1:2385",
 		"--advertise-client-urls","http://127.0.0.1:2385",
-		"--discovery","http://localhost:2379/v2/keys/discovery/67ba1a10b3327ccbbaf2d646c0d2753c",
+		"--discovery","https://discovery.etcd.io/f0be1fdc930b1d1a495bb99544a4d2b7",
 	}
 	etcdmain.Main()//服务端主入口
 }
